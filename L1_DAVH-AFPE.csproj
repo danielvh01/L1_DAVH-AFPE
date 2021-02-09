@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>L1_DAVH_AFPE</RootNamespace>
+  </PropertyGroup>
+
+</Project>
