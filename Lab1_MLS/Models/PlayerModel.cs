@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Lab1_MLS.Models
 {
-    public class PlayerModel : Controller
+    public class PlayerModel 
     {        
 
         public string Name { get; set; }
@@ -18,5 +19,7 @@ namespace Lab1_MLS.Models
         public double Salary { get; set; }
 
         public string Club { get; set; }
+
+        
     }
 }

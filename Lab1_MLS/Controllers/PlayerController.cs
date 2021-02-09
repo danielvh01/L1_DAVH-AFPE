@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lab1_MLS.Models.Data;
 
 namespace Lab1_MLS.Controllers
 {
@@ -12,7 +13,7 @@ namespace Lab1_MLS.Controllers
         // GET: PlayerController
         public ActionResult Index()
         {
-            return View();
+            return View(Singleton.Instance.PlayersList);
         }
 
         // GET: PlayerController/Details/5
