@@ -113,5 +113,37 @@ namespace Lab1_MLS.Controllers
                 return View();
             }
         }
+
+        public ActionResult Import_File()
+        {
+            return View();
+        }
+
+        // POST: PlayerController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Import_File(IFormCollection collection)
+        {
+            try
+            {
+                //var newPlayer = new Models.PlayerModel
+                //{
+                //    Id = cont,
+                //    Name = collection["Name"],
+                //    LastName = collection["LastName"],
+                //    Position = collection["Position"],
+                //    Salary = Double.Parse(collection["Salary"]),
+                //    Club = collection["Club"]
+
+                //};
+                //Singleton.Instance.PlayersList.Add(newPlayer);
+                //cont++;
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
     }
 }
