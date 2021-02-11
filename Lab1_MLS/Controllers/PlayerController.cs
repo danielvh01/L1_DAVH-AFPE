@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿    using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -95,7 +95,7 @@ namespace Lab1_MLS.Controllers
         public ActionResult Delete(int id)
         {
             var Player = Singleton.Instance.PlayersList.Find(x => x.Id == id);
-            return View();
+            return View(Player);
         }
 
         // POST: PlayerController/Delete/5

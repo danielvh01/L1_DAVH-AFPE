@@ -1,0 +1,25 @@
+﻿@model Lab1_MLS.Models.PlayerModel
+
+@{
+    ViewData["Title"] = "Import File";
+}
+
+<h1>Create</h1>
+
+<h4>Player Register</h4>
+<hr />
+
+<label for="avatar">Upload players file</label>
+<p>
+    <input type="file" />
+</p>
+
+<label for="avatar">----Or</label>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
