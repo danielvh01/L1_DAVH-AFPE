@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Lab1_MLS.Models.Data;
+using System.IO;
+using Lab1_MLS.Models;
 
 namespace Lab1_MLS.Controllers
 {
@@ -119,31 +121,37 @@ namespace Lab1_MLS.Controllers
             return View();
         }
 
-        // POST: PlayerController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Import_File(IFormCollection collection)
         {
-            try
+            if (collection["uploaded"].Count > 0)
             {
-                //var newPlayer = new Models.PlayerModel
-                //{
-                //    Id = cont,
-                //    Name = collection["Name"],
-                //    LastName = collection["LastName"],
-                //    Position = collection["Position"],
-                //    Salary = Double.Parse(collection["Salary"]),
-                //    Club = collection["Club"]
+                string contentUploaded = collection["uploaded"].ToString();
+                string[] players = contentUploaded.Split('\n');
+                if (players.Length > 0)
+                {
+                    for (int i = 0; i < players.Length; i++)
+                    {
+                        string[] newPlayer = players[i].Split(';');
+                        if (newPlayer.Length > 5)
+                        {
+                            var PlayerAded = new Models.PlayerModel
+                            {
+                                Id = cont,
+                                Name = newPlayer[0],
+                                LastName = newPlayer[1],
+                                Position = newPlayer[2],
+                                Salary = Double.Parse(newPlayer[3]),
+                                Club = newPlayer[4]
+                            };
+                            Singleton.Instance.PlayersList.Add(PlayerAded);
+                        }
+                        cont++;
+                    } 
+                }
+            }
+            return RedirectToAction(nameof(Index));
 
-                //};
-                //Singleton.Instance.PlayersList.Add(newPlayer);
-                //cont++;
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
