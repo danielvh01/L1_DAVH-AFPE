@@ -133,7 +133,7 @@ namespace Lab1_MLS.Controllers
                     for (int i = 0; i < players.Length; i++)
                     {
                         string[] newPlayer = players[i].Split(';');
-                        if (newPlayer.Length > 5)
+                        if (newPlayer.Length == 5)
                         {
                             var PlayerAded = new Models.PlayerModel
                             {
