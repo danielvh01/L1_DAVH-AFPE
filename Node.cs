@@ -4,9 +4,9 @@ using System.Text;
 
 namespace L1_DAVH_AFPE
 {
-    class Node
+    public class Node<T>
     {
-        Node next;
-        var value;
+        public Node<T> next = null;
+        public T value;
     }
 }

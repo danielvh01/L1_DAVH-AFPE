@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Lab1_MLS.Models
 {
-    public class PlayerModel 
+    public class PlayerModel : IComparable
     {        
         public int Id { get; set; }
 
@@ -26,6 +26,14 @@ namespace Lab1_MLS.Models
 
         [Required]
         public string Club { get; set; }
+
+        public int CompareTo(object obj)
+        {
+            var comparer = ((PlayerModel)obj).Id;
+            return comparer < Id ? -1 : comparer == Id ? 0 : 1;
+        }
+
+
 
         
     }
