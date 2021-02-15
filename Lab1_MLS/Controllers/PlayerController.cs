@@ -116,6 +116,8 @@ namespace Lab1_MLS.Controllers
             }
         }
 
+        
+
         public ActionResult Import_File()
         {
             return View();
@@ -126,7 +128,7 @@ namespace Lab1_MLS.Controllers
         {
             if (collection["uploaded"].Count > 0)
             {
-                string contentUploaded = collection["uploaded"].ToString();
+                string contentUploaded = collection["uploaded"].ToString();                
                 string[] players = contentUploaded.Split('\n');
                 if (players.Length > 0)
                 {
@@ -138,11 +140,12 @@ namespace Lab1_MLS.Controllers
                             var PlayerAded = new Models.PlayerModel
                             {
                                 Id = cont,
-                                Name = newPlayer[0],
+                                Club = newPlayer[0],
                                 LastName = newPlayer[1],
-                                Position = newPlayer[2],
-                                Salary = Double.Parse(newPlayer[3]),
-                                Club = newPlayer[4]
+                                Name = newPlayer[2],
+                                Position = newPlayer[3],
+                                Salary = Double.Parse(newPlayer[4])
+
                             };
                             Singleton.Instance.PlayersList.Add(PlayerAded);
                         }
