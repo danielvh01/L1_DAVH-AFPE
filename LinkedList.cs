@@ -146,6 +146,65 @@ namespace L1_DAVH_AFPE
             }
         }
 
+        T GetFirst()
+        {
+            if(Length > 0)
+            {
+                return First.value;
+            }
+            else
+            {
+                return default;
+            }
+        }
+
+        T GetEnd()
+        {
+            if(Length > 0)
+            {
+                Node<T> node = First;
+                while(node.next != null)
+                {
+                    node = node.next;
+                }
+                return node.value;
+            }
+            else
+            {
+                return default;
+            }
+        }
+
+        public T Get(int position)
+        {
+            if(Length > 0)
+            {
+                if(position == 0)
+                {
+                    return GetFirst();
+                }
+                else if(position >= Length)
+                {
+                    return GetEnd();
+                }
+                else
+                {
+                    Node<T> node = First;
+                    int cont = 0;
+                    while(node != null && cont < position)
+                    {
+                        node = node.next;
+                        cont++;
+                    }
+                    return node.value;
+                }
+            }
+            else
+            {
+                return default;
+            }
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             var node = First;
