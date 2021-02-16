@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 using Lab1_MLS.Models.Data;
 using System.IO;
 using Lab1_MLS.Models;
+using System.Web;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Lab1_MLS.Controllers
 {
     public class PlayerController : Controller
     {
         int cont = 0;
+        
         // GET: PlayerController
         public ActionResult Index()
         {
@@ -124,11 +127,12 @@ namespace Lab1_MLS.Controllers
         }
 
         [HttpPost]
-        public ActionResult Import_File(IFormCollection collection)
+        public ActionResult Import_File(IFormFileCollection collection)
         {
-            if (collection["uploaded"].Count > 0)
+            if (collection["uploaded"] != null)
             {
-                string contentUploaded = collection["uploaded"].ToString();                
+                string filepath = "~/Uploads/" + collection["uploaded"].FileName;
+                
                 string[] players = contentUploaded.Split('\n');
                 if (players.Length > 0)
                 {
