@@ -131,30 +131,32 @@ namespace Lab1_MLS.Controllers
         {
             if (collection["uploaded"] != null)
             {
-                string filepath = "~/Uploads/" + collection["uploaded"].FileName;
-                
-                string[] players = contentUploaded.Split('\n');
-                if (players.Length > 0)
-                {
-                    for (int i = 0; i < players.Length; i++)
+                string filepath = collection["uploaded"].FileName;
+                var lectorlinea = new StreamReader(filepath);
+                string players = lectorlinea.ReadLine();
+                while (players != null) {
+                    if (players.Length > 0)
                     {
-                        string[] newPlayer = players[i].Split(';');
-                        if (newPlayer.Length == 5)
+                        for (int i = 0; i < players.Length; i++)
                         {
-                            var PlayerAded = new Models.PlayerModel
+                            string[] newPlayer = players[i].Split(';');
+                            if (newPlayer.Length == 5)
                             {
-                                Id = cont,
-                                Club = newPlayer[0],
-                                LastName = newPlayer[1],
-                                Name = newPlayer[2],
-                                Position = newPlayer[3],
-                                Salary = Double.Parse(newPlayer[4])
+                                var PlayerAded = new Models.PlayerModel
+                                {
+                                    Id = cont,
+                                    Club = newPlayer[0],
+                                    LastName = newPlayer[1],
+                                    Name = newPlayer[2],
+                                    Position = newPlayer[3],
+                                    Salary = Double.Parse(newPlayer[4])
 
-                            };
-                            Singleton.Instance.PlayersList.Add(PlayerAded);
+                                };
+                                Singleton.Instance.PlayersList.Add(PlayerAded);
+                            }
+                            cont++;
                         }
-                        cont++;
-                    } 
+                    }
                 }
             }
             return RedirectToAction(nameof(Index));
