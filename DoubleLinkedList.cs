@@ -7,7 +7,7 @@ using L1_DAVH_AFPE;
 namespace L1_DAVH_AFPE
 {
 
-    public class LinkedList<T> : IEnumerable
+    public class DoubleLinkedList<T> : IEnumerable
     {
         Node<T> First;
         Node<T> End;
@@ -25,6 +25,7 @@ namespace L1_DAVH_AFPE
             else
             {
                 node.next = First;
+                First.prev = node;
                 First = node;
             }
         }
@@ -41,6 +42,7 @@ namespace L1_DAVH_AFPE
             else
             {
                 End.next = node;
+                node.prev = End;
                 End = node;
             }
         }
@@ -66,13 +68,15 @@ namespace L1_DAVH_AFPE
                 }
                 else
                 {
-                    Node<T> prev = First;
+                    Node<T> pretemp = First;
                     while (newNode != null && Position - 1 < Length)
                     {
-                        prev = prev.next;
+                        pretemp = pretemp.next;
                     }
-                    newNode.next = prev.next;
-                    prev.next = newNode;
+                    newNode.next = pretemp.next;
+                    pretemp.next.prev = newNode;
+                    newNode.prev = pretemp;
+                    pretemp.next = newNode;
                 }
             }
         }
@@ -87,6 +91,7 @@ namespace L1_DAVH_AFPE
             else
             {
                 First = First.next;
+                First.prev = null;
             }
         }
 
@@ -101,13 +106,8 @@ namespace L1_DAVH_AFPE
             else
             {
                 Node<T> node = First;
-                int cont = 0;
-                while(cont < Length)
-                {
-                    node = node.next;
-                    cont++;
-                }
-                node.next = null;
+                End.prev.next = null;
+                End = End.prev;
             }
         }
 
@@ -141,7 +141,8 @@ namespace L1_DAVH_AFPE
                         cont++;
                     }
                     prev.next = node.next;
-                    node.next = null;
+                    node.next.prev = prev;
+                    node = null;
                 }
             }
         }
