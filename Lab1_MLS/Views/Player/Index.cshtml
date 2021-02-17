@@ -33,6 +33,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Club)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Compensation)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -53,6 +56,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Club)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Compensation)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { item.Id }) |

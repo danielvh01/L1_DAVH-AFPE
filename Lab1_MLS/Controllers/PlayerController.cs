@@ -147,11 +147,11 @@ namespace Lab1_MLS.Controllers
                 }
                 var lectorlinea = new StreamReader(model.File.OpenReadStream());
                 string linea = lectorlinea.ReadToEnd();
-                string[] players = linea.Split("\r\n");
-                for (int i = 0; i < players.Length; i++)
+                string[] players = linea.Split("\n");
+                for (int i = 1; i < players.Length; i++)
                 {
                     string[] newPlayer = players[i].Split(',');
-                    if (newPlayer.Length == 5)
+                    if (newPlayer.Length == 6)
                     {
                         var PlayerAded = new Models.PlayerModel
                         {
@@ -160,15 +160,16 @@ namespace Lab1_MLS.Controllers
                             LastName = newPlayer[1],
                             Name = newPlayer[2],
                             Position = newPlayer[3],
-                            Salary = Double.Parse(newPlayer[4])
+                            Salary = Double.Parse(newPlayer[4]),
+                            Compensation = Double.Parse(newPlayer[5])
 
                         };
                         Singleton.Instance.PlayersList.Add(PlayerAded);
                     }
                     else
                     {
-                        string[] player = players[i].Split(';');
-                        if (player.Length == 5)
+                        newPlayer = players[i].Split(';');
+                        if (newPlayer.Length == 6)
                         {
                             var PlayerAded = new Models.PlayerModel
                             {
@@ -177,11 +178,13 @@ namespace Lab1_MLS.Controllers
                                 LastName = newPlayer[1],
                                 Name = newPlayer[2],
                                 Position = newPlayer[3],
-                                Salary = Double.Parse(newPlayer[4])
+                                Salary = Double.Parse(newPlayer[4]),
+                                Compensation = Double.Parse(newPlayer[5])
 
                             };
                             Singleton.Instance.PlayersList.Add(PlayerAded);
                         }
+                    }
                     cont++;
                 }
 

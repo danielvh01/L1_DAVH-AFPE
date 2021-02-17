@@ -27,6 +27,9 @@ namespace Lab1_MLS.Models
         [Required]
         public string Club { get; set; }
 
+        [Required]
+        public double Compensation { get; set; }
+
         public int CompareTo(object obj)
         {
             var comparer = ((PlayerModel)obj).Id;
