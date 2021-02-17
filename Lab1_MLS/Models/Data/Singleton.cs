@@ -22,5 +22,6 @@ namespace Lab1_MLS.Models.Data
                     return _instance;
                 }
             }
+
         }
 }
