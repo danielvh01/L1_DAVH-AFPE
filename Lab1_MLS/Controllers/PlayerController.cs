@@ -15,7 +15,11 @@ namespace Lab1_MLS.Controllers
     public class PlayerController : Controller
     {
         int cont = 0;
-        
+        private readonly IHostingEnvironment hostingEnvironment;
+        public PlayerController(IHostingEnvironment hostingEnvironment)
+        {
+            this.hostingEnvironment = hostingEnvironment;
+        }
         // GET: PlayerController
         public ActionResult Index()
         {
@@ -121,41 +125,44 @@ namespace Lab1_MLS.Controllers
 
         
 
-        public ActionResult Import_File()
+        public ActionResult Import()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Import_File(IFormFileCollection collection)
+        public ActionResult Import(FileModel model)
         {
-            if (collection["uploaded"] != null)
+            if (ModelState.IsValid)
             {
-                string filepath = collection["uploaded"].FileName;
-                var lectorlinea = new StreamReader(filepath);
-                string players = lectorlinea.ReadLine();
-                while (players != null) {
-                    if (players.Length > 0)
+                string uniqueFileName = null;
+                if (model.File != null)
+                {
+                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Uploads");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.File.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    model.File.CopyTo(new FileStream(filePath, FileMode.Create));
+                    var lectorlinea = new StreamReader(filePath);
+                    string linea = lectorlinea.ReadToEnd();
+                    string[] players = linea.Split("\r\n");
+                    for (int i = 0; i < players.Length; i++)
                     {
-                        for (int i = 0; i < players.Length; i++)
+                        string[] newPlayer = players[i].Split(';');
+                        if (newPlayer.Length == 5)
                         {
-                            string[] newPlayer = players[i].Split(';');
-                            if (newPlayer.Length == 5)
+                            var PlayerAded = new Models.PlayerModel
                             {
-                                var PlayerAded = new Models.PlayerModel
-                                {
-                                    Id = cont,
-                                    Club = newPlayer[0],
-                                    LastName = newPlayer[1],
-                                    Name = newPlayer[2],
-                                    Position = newPlayer[3],
-                                    Salary = Double.Parse(newPlayer[4])
+                                Id = cont,
+                                Club = newPlayer[0],
+                                LastName = newPlayer[1],
+                                Name = newPlayer[2],
+                                Position = newPlayer[3],
+                                Salary = Double.Parse(newPlayer[4])
 
-                                };
-                                Singleton.Instance.PlayersList.Add(PlayerAded);
-                            }
-                            cont++;
+                            };
+                            Singleton.Instance.PlayersList.Add(PlayerAded);
                         }
+                        cont++;
                     }
                 }
             }
