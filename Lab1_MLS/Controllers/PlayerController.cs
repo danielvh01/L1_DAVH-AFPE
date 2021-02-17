@@ -150,7 +150,7 @@ namespace Lab1_MLS.Controllers
                 string[] players = linea.Split("\r\n");
                 for (int i = 0; i < players.Length; i++)
                 {
-                    string[] newPlayer = players[i].Split(';');
+                    string[] newPlayer = players[i].Split(',');
                     if (newPlayer.Length == 5)
                     {
                         var PlayerAded = new Models.PlayerModel
@@ -165,6 +165,23 @@ namespace Lab1_MLS.Controllers
                         };
                         Singleton.Instance.PlayersList.Add(PlayerAded);
                     }
+                    else
+                    {
+                        string[] player = players[i].Split(';');
+                        if (player.Length == 5)
+                        {
+                            var PlayerAded = new Models.PlayerModel
+                            {
+                                Id = cont,
+                                Club = newPlayer[0],
+                                LastName = newPlayer[1],
+                                Name = newPlayer[2],
+                                Position = newPlayer[3],
+                                Salary = Double.Parse(newPlayer[4])
+
+                            };
+                            Singleton.Instance.PlayersList.Add(PlayerAded);
+                        }
                     cont++;
                 }
 
