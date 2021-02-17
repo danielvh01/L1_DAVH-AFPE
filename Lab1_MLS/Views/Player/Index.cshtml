@@ -7,11 +7,19 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>    
+    <a asp-action="Create">Create New using C# List</a>
 </p>
 
 <p>
-    <a asp-action="Import">Import File</a>
+    <a asp-action="Import">Import File using C# List</a>
+</p>
+
+<p>
+    <a asp-action="Create">Create New using Handcrafted List</a>
+</p>
+
+<p>
+    <a asp-action="Import_File">Import File using Handcrafted List</a>
 </p>
 
 
@@ -40,32 +48,33 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Position)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Salary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Club)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Compensation)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { item.Id }) |
-                @Html.ActionLink("Details", "Details", new { item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { item.Id })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Club)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Compensation)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { item.Id })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
