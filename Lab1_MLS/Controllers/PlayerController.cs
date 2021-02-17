@@ -26,6 +26,7 @@ namespace Lab1_MLS.Controllers
             return View(Singleton.Instance.PlayersList);
         }
 
+
         // GET: PlayerController/Details/5
         public ActionResult Details(int id)
         {
@@ -136,35 +137,37 @@ namespace Lab1_MLS.Controllers
             if (ModelState.IsValid)
             {
                 string uniqueFileName = null;
+                string filePath = null;
                 if (model.File != null)
                 {
                     string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Uploads");
                     uniqueFileName = Guid.NewGuid().ToString() + "_" + model.File.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    filePath = Path.Combine(uploadsFolder, uniqueFileName);
                     model.File.CopyTo(new FileStream(filePath, FileMode.Create));
-                    var lectorlinea = new StreamReader(filePath);
-                    string linea = lectorlinea.ReadToEnd();
-                    string[] players = linea.Split("\r\n");
-                    for (int i = 0; i < players.Length; i++)
-                    {
-                        string[] newPlayer = players[i].Split(';');
-                        if (newPlayer.Length == 5)
-                        {
-                            var PlayerAded = new Models.PlayerModel
-                            {
-                                Id = cont,
-                                Club = newPlayer[0],
-                                LastName = newPlayer[1],
-                                Name = newPlayer[2],
-                                Position = newPlayer[3],
-                                Salary = Double.Parse(newPlayer[4])
-
-                            };
-                            Singleton.Instance.PlayersList.Add(PlayerAded);
-                        }
-                        cont++;
-                    }
                 }
+                var lectorlinea = new StreamReader(model.File.OpenReadStream());
+                string linea = lectorlinea.ReadToEnd();
+                string[] players = linea.Split("\r\n");
+                for (int i = 0; i < players.Length; i++)
+                {
+                    string[] newPlayer = players[i].Split(';');
+                    if (newPlayer.Length == 5)
+                    {
+                        var PlayerAded = new Models.PlayerModel
+                        {
+                            Id = cont,
+                            Club = newPlayer[0],
+                            LastName = newPlayer[1],
+                            Name = newPlayer[2],
+                            Position = newPlayer[3],
+                            Salary = Double.Parse(newPlayer[4])
+
+                        };
+                        Singleton.Instance.PlayersList.Add(PlayerAded);
+                    }
+                    cont++;
+                }
+
             }
             return RedirectToAction(nameof(Index));
 
