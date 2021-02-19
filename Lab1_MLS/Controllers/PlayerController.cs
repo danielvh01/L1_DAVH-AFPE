@@ -132,14 +132,17 @@ namespace Lab1_MLS.Controllers
                 if(Singleton.Instance.usingHandmadeList)
                 {
                     log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms using the handcrafted list\n";
+                    TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + " ms using the handcrafted list";
                 }
                 else
                 {
                     log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms using the .NET list\n";
+                    TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + "ms using the .NET list ";
                 }
                 StreamWriter file = new StreamWriter(session, true);
                 file.Write(log);
                 file.Close();
+                
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -165,6 +168,7 @@ namespace Lab1_MLS.Controllers
                 }
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Edit(GET) - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + " ms ";
                 StreamWriter file = new StreamWriter(session, true);
                 file.Write(log);
                 file.Close();
@@ -222,6 +226,7 @@ namespace Lab1_MLS.Controllers
                 }
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Edit(POST) - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + " ms ";
                 StreamWriter file = new StreamWriter(session, true);
                 file.Write(log);
                 file.Close();
@@ -250,6 +255,7 @@ namespace Lab1_MLS.Controllers
                 }
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Delete(GET) - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + " ms ";
                 StreamWriter file = new StreamWriter(session, true);
                 file.Write(log);
                 file.Close();
@@ -261,6 +267,7 @@ namespace Lab1_MLS.Controllers
                 var player = Singleton.Instance.PlayersList.Find(x => x.Id == id);
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Delete(GET) - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + " ms ";
                 StreamWriter file = new StreamWriter(session, true);
                 file.Write(log);
                 file.Close();
@@ -290,6 +297,7 @@ namespace Lab1_MLS.Controllers
                     }
                     conteo.Stop();
                     log += "[" + DateTime.Now + "]- Delete(POST) - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                    TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + " ms ";
                     StreamWriter file = new StreamWriter(session, true);
                     file.Write(log);
                     file.Close();
@@ -301,6 +309,7 @@ namespace Lab1_MLS.Controllers
                     Singleton.Instance.PlayersList.Remove(Singleton.Instance.PlayersList.Find(x => x.Id == id));
                     conteo.Stop();
                     log += "[" + DateTime.Now + "]- Delete(POST) - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                    TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + " ms ";
                     StreamWriter file = new StreamWriter(session, true);
                     file.Write(log);
                     file.Close();
@@ -394,7 +403,16 @@ namespace Lab1_MLS.Controllers
 
             }
             conteo.Stop();
-            log += "[" + DateTime.Now + "]- Import - Time Lapsed: " + conteo.Elapsed + "ms\n";
+            if (Singleton.Instance.usingHandmadeList)
+            {
+                log += "[" + DateTime.Now + "]- Import - Time Lapsed: " + conteo.Elapsed + "ms using the Handcrafted List\n";
+                TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + " ms using the Handcrafted List";
+            }
+            else
+            {
+                log += "[" + DateTime.Now + "]- Import - Time Lapsed: " + conteo.Elapsed + "ms using the .NET List\n";
+                TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + " ms using the .NET List";
+            }
             StreamWriter file = new StreamWriter(session, true);
             file.Write(log);
             file.Close();
