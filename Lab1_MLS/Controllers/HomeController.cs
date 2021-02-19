@@ -18,12 +18,12 @@ namespace Lab1_MLS.Controllers
         public IActionResult Handcrafted()
         {
             Models.Data.Singleton.Instance.usingHandmadeList = true;
-            return RedirectToAction(nameof(Index), nameof(PlayerController));
+            return RedirectToAction(nameof(Index), ("Player"));
         }
         public IActionResult CsharpList()
         {
             Models.Data.Singleton.Instance.usingHandmadeList = false;
-            return RedirectToAction(nameof(Index), nameof(PlayerController));
+            return RedirectToAction(nameof(Index), ("Player"));
         }
 
         public IActionResult Index()

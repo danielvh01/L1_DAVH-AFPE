@@ -50,7 +50,7 @@ namespace Lab1_MLS
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Player}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
