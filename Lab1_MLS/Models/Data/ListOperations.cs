@@ -7,9 +7,9 @@ namespace Lab1_MLS.Models.Data
 {
     public class ListOperations
     {
-        public IEnumerable<object> Search(IEnumerable<object> list, Func<object, bool> Comparer)
+        public IEnumerable<PlayerModel> Search(IEnumerable<PlayerModel> list, Func<PlayerModel, bool> Comparer)
         {
-            List<object> result = new List<object>();
+            List<PlayerModel> result = new List<PlayerModel>();
             for(int i  = 0; i < list.Count(); i++)
             {
                 if(Comparer.Invoke(list.ElementAt(i)))

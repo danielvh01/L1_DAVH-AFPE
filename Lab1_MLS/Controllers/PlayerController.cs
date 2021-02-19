@@ -28,34 +28,38 @@ namespace Lab1_MLS.Controllers
             operations = new ListOperations();
             this.hostingEnvironment = hostingEnvironment;
         }
+
         // GET: PlayerController
-        public ActionResult Index(string filter)
+        public ActionResult Index()
         {
-            if (filter == "")
+           
+            if (Singleton.Instance.usingHandmadeList)
             {
-                if (Singleton.Instance.usingHandmadeList)
-                {
-                    return View(Singleton.Instance.HandcraftedList);
-                }
-                else
-                {
-                    return View(Singleton.Instance.PlayersList);
-                }
+                return View(Singleton.Instance.HandcraftedList);
             }
             else
             {
-                if (Singleton.Instance.usingHandmadeList)
-                {
-                    return View(operations.Search(Singleton.Instance.HandcraftedList, x=> x.ToString().Contains(filter)));
-                }
-                else
-                {
-                    return View(Singleton.Instance.PlayersList);
-                }
+                return View(Singleton.Instance.PlayersList);
             }
         }
 
-
+        
+        [HttpPost]
+        public ActionResult Index(IFormCollection collection)
+        {
+            string filter = collection["search"];
+            if (Singleton.Instance.usingHandmadeList)
+            {
+                return View(operations.Search(Singleton.Instance.HandcraftedList, x => x.Name.Contains(filter) || x.LastName.Contains(filter)
+                || x.Position.Contains(filter) || x.Club.Contains(filter)));
+            }
+            else
+            {
+                return View(operations.Search(Singleton.Instance.PlayersList, x => x.Name.Contains(filter) || x.LastName.Contains(filter)
+                || x.Position.Contains(filter) || x.Club.Contains(filter)));
+            }
+        }
+        
         // GET: PlayerController/Details/5
         public ActionResult Details(int id)
         {
