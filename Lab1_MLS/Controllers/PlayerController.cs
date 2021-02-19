@@ -20,10 +20,13 @@ namespace Lab1_MLS.Controllers
         Stopwatch conteo = new Stopwatch();
         string log;
         private readonly IHostingEnvironment hostingEnvironment;
-        StreamWriter file = new StreamWriter("~/Times.log", false);
         public PlayerController(IHostingEnvironment hostingEnvironment)
         {
             this.hostingEnvironment = hostingEnvironment;
+            string session = "Times_" + Guid.NewGuid().ToString() + ".log";
+            StreamWriter file = new StreamWriter(session, false);
+            file.Write("");
+            file.Close();
         }
         // GET: PlayerController
         public ActionResult Index()
@@ -55,8 +58,10 @@ namespace Lab1_MLS.Controllers
                     }
                 }
                 conteo.Stop();
-                log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms using the handcrafted list\n";
+                StreamWriter file = new StreamWriter("Times_" + session + ".log", true);
                 file.Write(log);
+                file.Close();
                 return View(detailsPlayer);
             }
             else
@@ -64,8 +69,10 @@ namespace Lab1_MLS.Controllers
                 conteo.Restart();
                 var detailsPlayer = Singleton.Instance.PlayersList.Find(x => x.Id == id);
                 conteo.Stop();
-                log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms using the .NET list\n";
+                StreamWriter file = new StreamWriter("Times.log", true);
                 file.Write(log);
+                file.Close();
                 return View(detailsPlayer);
             }
         }
@@ -104,8 +111,17 @@ namespace Lab1_MLS.Controllers
                 }
                 cont++;
                 conteo.Stop();
-                log += "[" + DateTime.Now + "]- Create - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                if(Singleton.Instance.usingHandmadeList)
+                {
+                    log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms using the handcrafted list\n";
+                }
+                else
+                {
+                    log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms using the .NET list\n";
+                }
+                StreamWriter file = new StreamWriter("Times.log", true);
                 file.Write(log);
+                file.Close();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -131,7 +147,9 @@ namespace Lab1_MLS.Controllers
                 }
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Edit(GET) - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                StreamWriter file = new StreamWriter("Times.log", true);
                 file.Write(log);
+                file.Close();
                 return View(editPlayer);
             }
             else
@@ -140,7 +158,9 @@ namespace Lab1_MLS.Controllers
                 var editPlayer = Singleton.Instance.PlayersList.Find(x => x.Id == id);
                 conteo.Stop();
                 log += "[Edit(GET)] - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                StreamWriter file = new StreamWriter("Times.log", true);
                 file.Write(log);
+                file.Close();
                 return View(editPlayer);
             }
         }
@@ -153,10 +173,9 @@ namespace Lab1_MLS.Controllers
             try
             {
                 conteo.Restart();
-                int index = Singleton.Instance.PlayersList.IndexOf(Singleton.Instance.PlayersList.Find(x => x.Id == id));
                 var PlayerEdited = new Models.PlayerModel
                 {
-                    Id = cont,
+                    Id = id,
                     Name = collection["Name"],
                     LastName = collection["LastName"],
                     Position = collection["Position"],
@@ -165,16 +184,29 @@ namespace Lab1_MLS.Controllers
                 };
                 if (Singleton.Instance.usingHandmadeList)
                 {
+                    int index = -1;
+                    for (int i = 0; i < Singleton.Instance.HandcraftedList.Length; i++)
+                    {
+                        var editPlayer = Singleton.Instance.HandcraftedList.Get(i);
+                        if (editPlayer.Id == id)
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
                     Singleton.Instance.HandcraftedList.Delete(index);
                     Singleton.Instance.HandcraftedList.Insert(PlayerEdited, index);
                 }
                 else
                 {
+                    int index = Singleton.Instance.PlayersList.IndexOf(Singleton.Instance.PlayersList.Find(x => x.Id == id));
                     Singleton.Instance.PlayersList[index] = PlayerEdited;
                 }
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Edit(POST) - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                StreamWriter file = new StreamWriter("Times.log", true);
                 file.Write(log);
+                file.Close();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -200,7 +232,9 @@ namespace Lab1_MLS.Controllers
                 }
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Delete(GET) - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                StreamWriter file = new StreamWriter("Times.log", true);
                 file.Write(log);
+                file.Close();
                 return View(player);
             }
             else
@@ -209,7 +243,9 @@ namespace Lab1_MLS.Controllers
                 var player = Singleton.Instance.PlayersList.Find(x => x.Id == id);
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Delete(GET) - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                StreamWriter file = new StreamWriter("Times.log", true);
                 file.Write(log);
+                file.Close();
                 return View(player);
             }
         }
@@ -236,8 +272,10 @@ namespace Lab1_MLS.Controllers
                     }
                     conteo.Stop();
                     log += "[" + DateTime.Now + "]- Delete(POST) - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                    StreamWriter file = new StreamWriter("Times.log", true);
                     file.Write(log);
-                    return View(player);
+                    file.Close();
+                    return RedirectToAction(nameof(Index));
                 }
                 else
                 {
@@ -245,7 +283,9 @@ namespace Lab1_MLS.Controllers
                     Singleton.Instance.PlayersList.Remove(Singleton.Instance.PlayersList.Find(x => x.Id == id));
                     conteo.Stop();
                     log += "[" + DateTime.Now + "]- Delete(POST) - Time Lapsed: " + conteo.Elapsed + "ms\n";
+                    StreamWriter file = new StreamWriter("Times.log", true);
                     file.Write(log);
+                    file.Close();
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -337,7 +377,9 @@ namespace Lab1_MLS.Controllers
             }
             conteo.Stop();
             log += "[" + DateTime.Now + "]- Import - Time Lapsed: " + conteo.Elapsed + "ms\n";
+            StreamWriter file = new StreamWriter("Times.log", true);
             file.Write(log);
+            file.Close();
             //Necessary return time data to index
             return RedirectToAction(nameof(Index));
         }

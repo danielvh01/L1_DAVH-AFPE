@@ -11,7 +11,7 @@ namespace Lab1_MLS.Models.Data
         private readonly static Singleton _instance = new Singleton();
         public List<PlayerModel> PlayersList;
         public DoubleLinkedList<PlayerModel> HandcraftedList;
-        public bool usingHandmadeList = false;
+        public bool usingHandmadeList = true;
         private Singleton()
         {
             PlayersList = new List<PlayerModel>();
