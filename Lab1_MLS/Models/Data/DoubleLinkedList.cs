@@ -121,6 +121,7 @@ namespace Lab1_MLS.Models.Data
                 {
                     First = null;
                     End = null;
+                    Length--;
                 }
                 else
                 {

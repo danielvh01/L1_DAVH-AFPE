@@ -32,31 +32,57 @@ namespace Lab1_MLS.Controllers
         // GET: PlayerController
         public ActionResult Index()
         {
-           
+            conteo.Restart();
             if (Singleton.Instance.usingHandmadeList)
             {
+                conteo.Stop();
+                log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms using the handcrafted list\n";
+                TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + " ms ";
+                StreamWriter file = new StreamWriter(session, true);
+                file.Write(log);
+                file.Close();
                 return View(Singleton.Instance.HandcraftedList);
             }
             else
             {
+                conteo.Stop();
+                log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms using the handcrafted list\n";
+                TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + " ms ";
+                StreamWriter file = new StreamWriter(session, true);
+                file.Write(log);
+                file.Close();
                 return View(Singleton.Instance.PlayersList);
             }
+            
         }
 
         
         [HttpPost]
         public ActionResult Index(IFormCollection collection)
         {
+            conteo.Restart();
             string filter = collection["search"];
             if (Singleton.Instance.usingHandmadeList)
             {
-                return View(operations.Search(Singleton.Instance.HandcraftedList, x => x.Name.Contains(filter) || x.LastName.Contains(filter)
-                || x.Position.Contains(filter) || x.Club.Contains(filter)));
+                conteo.Stop();
+                log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms using the handcrafted list\n";
+                TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + " ms ";
+                StreamWriter file = new StreamWriter(session, true);
+                file.Write(log);
+                file.Close();
+                return View(operations.Search(Singleton.Instance.HandcraftedList, x => x.Name.ToUpper().Contains(filter.ToUpper()) || x.LastName.ToUpper().Contains(filter.ToUpper())
+                || x.Position.ToUpper().Contains(filter.ToUpper()) || x.Club.ToUpper().Contains(filter.ToUpper())));
             }
             else
             {
-                return View(operations.Search(Singleton.Instance.PlayersList, x => x.Name.Contains(filter) || x.LastName.Contains(filter)
-                || x.Position.Contains(filter) || x.Club.Contains(filter)));
+                conteo.Stop();
+                log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms using the handcrafted list\n";
+                TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + " ms ";
+                StreamWriter file = new StreamWriter(session, true);
+                file.Write(log);
+                file.Close();
+                return View(operations.Search(Singleton.Instance.PlayersList, x => x.Name.ToUpper().Contains(filter.ToUpper()) || x.LastName.ToUpper().Contains(filter.ToUpper())
+                || x.Position.ToUpper().Contains(filter.ToUpper()) || x.Club.ToUpper().Contains(filter.ToUpper())));
             }
         }
         
@@ -77,6 +103,7 @@ namespace Lab1_MLS.Controllers
                 }
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms using the handcrafted list\n";
+                TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + " ms ";
                 StreamWriter file = new StreamWriter(session, true);
                 file.Write(log);
                 file.Close();
@@ -88,6 +115,7 @@ namespace Lab1_MLS.Controllers
                 var detailsPlayer = Singleton.Instance.PlayersList.Find(x => x.Id == id);
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms using the .NET list\n";
+                TempData["testmsg"] = " Time Lapsed: " + conteo.Elapsed + " ms ";
                 StreamWriter file = new StreamWriter(session, true);
                 file.Write(log);
                 file.Close();
@@ -195,34 +223,38 @@ namespace Lab1_MLS.Controllers
             try
             {
                 conteo.Restart();
-                var PlayerEdited = new Models.PlayerModel
-                {
-                    Id = id,
-                    Name = collection["Name"],
-                    LastName = collection["LastName"],
-                    Position = collection["Position"],
-                    Salary = Double.Parse(collection["Salary"]),
-                    Club = collection["Club"]
-                };
+                PlayerModel PlayerEdited;
                 if (Singleton.Instance.usingHandmadeList)
                 {
                     int index = -1;
                     for (int i = 0; i < Singleton.Instance.HandcraftedList.Length; i++)
                     {
-                        var editPlayer = Singleton.Instance.HandcraftedList.Get(i);
-                        if (editPlayer.Id == id)
+                        PlayerEdited = Singleton.Instance.HandcraftedList.Get(i);
+                        if (PlayerEdited.Id == id)
                         {
                             index = i;
                             break;
                         }
                     }
-                    Singleton.Instance.HandcraftedList.Delete(index);
-                    Singleton.Instance.HandcraftedList.Insert(PlayerEdited, index);
+                    if(index > -1)
+                    {
+                        PlayerEdited = Singleton.Instance.HandcraftedList.Get(index);
+                        PlayerEdited.Salary = Double.Parse(collection["Salary"]);
+                        PlayerEdited.Club = collection["Club"];
+                        Singleton.Instance.HandcraftedList.Delete(index);
+                        Singleton.Instance.HandcraftedList.Insert(PlayerEdited, index);
+                    }
                 }
                 else
                 {
-                    int index = Singleton.Instance.PlayersList.IndexOf(Singleton.Instance.PlayersList.Find(x => x.Id == id));
-                    Singleton.Instance.PlayersList[index] = PlayerEdited;
+                    PlayerEdited = Singleton.Instance.PlayersList.Find(x => x.Id == id);
+                    int index = Singleton.Instance.PlayersList.IndexOf(PlayerEdited);
+                    if(index > -1)
+                    {
+                        PlayerEdited.Salary = Double.Parse(collection["Salary"]);
+                        PlayerEdited.Club = collection["Club"];
+                        Singleton.Instance.PlayersList[index] = PlayerEdited;
+                    }
                 }
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Edit(POST) - Time Lapsed: " + conteo.Elapsed + "ms\n";
