@@ -7,11 +7,19 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create</a>
-</p>
-
-<p>
-    <a asp-action="Import">Import</a>
+    <a asp-action="Create">Create</a> |
+    <a asp-action="Import">Import</a> |
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div class="col-auto">
+                <label for="inputPassword2" class="visually-hidden">Password</label>
+                <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
+            </div>
+        </form>
+    </div>
 </p>
 
 
