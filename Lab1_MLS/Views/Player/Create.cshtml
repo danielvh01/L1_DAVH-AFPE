@@ -9,13 +9,6 @@
 <h4>Player Register</h4>
 <hr />
 
-<label for="avatar">Upload players file</label>
-<p>
-    <input type="file" />
-</p>
-
-<label for="avatar">----Or</label>
-
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -44,6 +37,11 @@
                 <label asp-for="Club" class="control-label"></label>
                 <input asp-for="Club" class="form-control" />
                 <span asp-validation-for="Club" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Compensation" class="control-label"></label>
+                <input asp-for="Compensation" class="form-control" />
+                <span asp-validation-for="Compensation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

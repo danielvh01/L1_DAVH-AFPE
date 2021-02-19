@@ -1,11 +1,8 @@
 ﻿using Lab1_MLS.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace Lab1_MLS.Controllers
 {
@@ -16,6 +13,17 @@ namespace Lab1_MLS.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+        }
+
+        public IActionResult Handcrafted()
+        {
+            Models.Data.Singleton.Instance.usingHandmadeList = true;
+            return RedirectToAction(nameof(Index), ("Player"));
+        }
+        public IActionResult CsharpList()
+        {
+            Models.Data.Singleton.Instance.usingHandmadeList = false;
+            return RedirectToAction(nameof(Index), ("Player"));
         }
 
         public IActionResult Index()
