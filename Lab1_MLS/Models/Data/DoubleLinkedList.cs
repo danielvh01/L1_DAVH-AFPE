@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Lab1_MLS.Models.Data
 {
 
-    public class DoubleLinkedList<T> : IEnumerable
+    public class DoubleLinkedList<T> : IEnumerable<T>
     {
         Node<T> First;
         Node<T> End;
@@ -68,7 +68,7 @@ namespace Lab1_MLS.Models.Data
                 else
                 {
                     Node<T> pretemp = First;
-                    while (newNode != null && Position - 1 < Length)
+                    while (pretemp != null || Position - 1 < Length)
                     {
                         pretemp = pretemp.next;
                     }
@@ -209,20 +209,6 @@ namespace Lab1_MLS.Models.Data
             {
                 return default;
             }
-        }
-
-        public int GetPosition(T node)
-        {
-            int position = -1;
-            for (int i = 0; i < Length; i++)
-            {
-                if (node.Equals(Get(i)))
-                {
-                    position = i;
-                    break;
-                }
-            }
-            return position;
         }
 
         public IEnumerator<T> GetEnumerator()
