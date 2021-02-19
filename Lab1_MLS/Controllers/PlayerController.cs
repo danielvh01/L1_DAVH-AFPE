@@ -20,10 +20,10 @@ namespace Lab1_MLS.Controllers
         Stopwatch conteo = new Stopwatch();
         string log;
         private readonly IHostingEnvironment hostingEnvironment;
+        string session = "Times_" + Guid.NewGuid().ToString() + ".log";
         public PlayerController(IHostingEnvironment hostingEnvironment)
         {
             this.hostingEnvironment = hostingEnvironment;
-            string session = "Times_" + Guid.NewGuid().ToString() + ".log";
             StreamWriter file = new StreamWriter(session, false);
             file.Write("");
             file.Close();
