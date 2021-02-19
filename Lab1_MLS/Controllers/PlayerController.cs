@@ -20,13 +20,11 @@ namespace Lab1_MLS.Controllers
         Stopwatch conteo = new Stopwatch();
         string log;
         private readonly IHostingEnvironment hostingEnvironment;
-        string session = "Times_" + Guid.NewGuid().ToString() + ".log";
+        string session;
         public PlayerController(IHostingEnvironment hostingEnvironment)
         {
+            session = "Times.log";
             this.hostingEnvironment = hostingEnvironment;
-            StreamWriter file = new StreamWriter(session, false);
-            file.Write("");
-            file.Close();
         }
         // GET: PlayerController
         public ActionResult Index()
@@ -59,7 +57,7 @@ namespace Lab1_MLS.Controllers
                 }
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms using the handcrafted list\n";
-                StreamWriter file = new StreamWriter("Times_" + session + ".log", true);
+                StreamWriter file = new StreamWriter(session, true);
                 file.Write(log);
                 file.Close();
                 return View(detailsPlayer);
@@ -70,7 +68,7 @@ namespace Lab1_MLS.Controllers
                 var detailsPlayer = Singleton.Instance.PlayersList.Find(x => x.Id == id);
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms using the .NET list\n";
-                StreamWriter file = new StreamWriter("Times.log", true);
+                StreamWriter file = new StreamWriter(session, true);
                 file.Write(log);
                 file.Close();
                 return View(detailsPlayer);
@@ -119,7 +117,7 @@ namespace Lab1_MLS.Controllers
                 {
                     log += "[" + DateTime.Now + "]- Details - Time Lapsed: " + conteo.Elapsed + "ms using the .NET list\n";
                 }
-                StreamWriter file = new StreamWriter("Times.log", true);
+                StreamWriter file = new StreamWriter(session, true);
                 file.Write(log);
                 file.Close();
                 return RedirectToAction(nameof(Index));
@@ -147,7 +145,7 @@ namespace Lab1_MLS.Controllers
                 }
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Edit(GET) - Time Lapsed: " + conteo.Elapsed + "ms\n";
-                StreamWriter file = new StreamWriter("Times.log", true);
+                StreamWriter file = new StreamWriter(session, true);
                 file.Write(log);
                 file.Close();
                 return View(editPlayer);
@@ -158,7 +156,7 @@ namespace Lab1_MLS.Controllers
                 var editPlayer = Singleton.Instance.PlayersList.Find(x => x.Id == id);
                 conteo.Stop();
                 log += "[Edit(GET)] - Time Lapsed: " + conteo.Elapsed + "ms\n";
-                StreamWriter file = new StreamWriter("Times.log", true);
+                StreamWriter file = new StreamWriter(session, true);
                 file.Write(log);
                 file.Close();
                 return View(editPlayer);
@@ -204,7 +202,7 @@ namespace Lab1_MLS.Controllers
                 }
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Edit(POST) - Time Lapsed: " + conteo.Elapsed + "ms\n";
-                StreamWriter file = new StreamWriter("Times.log", true);
+                StreamWriter file = new StreamWriter(session, true);
                 file.Write(log);
                 file.Close();
                 return RedirectToAction(nameof(Index));
@@ -232,7 +230,7 @@ namespace Lab1_MLS.Controllers
                 }
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Delete(GET) - Time Lapsed: " + conteo.Elapsed + "ms\n";
-                StreamWriter file = new StreamWriter("Times.log", true);
+                StreamWriter file = new StreamWriter(session, true);
                 file.Write(log);
                 file.Close();
                 return View(player);
@@ -243,7 +241,7 @@ namespace Lab1_MLS.Controllers
                 var player = Singleton.Instance.PlayersList.Find(x => x.Id == id);
                 conteo.Stop();
                 log += "[" + DateTime.Now + "]- Delete(GET) - Time Lapsed: " + conteo.Elapsed + "ms\n";
-                StreamWriter file = new StreamWriter("Times.log", true);
+                StreamWriter file = new StreamWriter(session, true);
                 file.Write(log);
                 file.Close();
                 return View(player);
@@ -272,7 +270,7 @@ namespace Lab1_MLS.Controllers
                     }
                     conteo.Stop();
                     log += "[" + DateTime.Now + "]- Delete(POST) - Time Lapsed: " + conteo.Elapsed + "ms\n";
-                    StreamWriter file = new StreamWriter("Times.log", true);
+                    StreamWriter file = new StreamWriter(session, true);
                     file.Write(log);
                     file.Close();
                     return RedirectToAction(nameof(Index));
@@ -283,7 +281,7 @@ namespace Lab1_MLS.Controllers
                     Singleton.Instance.PlayersList.Remove(Singleton.Instance.PlayersList.Find(x => x.Id == id));
                     conteo.Stop();
                     log += "[" + DateTime.Now + "]- Delete(POST) - Time Lapsed: " + conteo.Elapsed + "ms\n";
-                    StreamWriter file = new StreamWriter("Times.log", true);
+                    StreamWriter file = new StreamWriter(session, true);
                     file.Write(log);
                     file.Close();
                     return RedirectToAction(nameof(Index));
@@ -377,7 +375,7 @@ namespace Lab1_MLS.Controllers
             }
             conteo.Stop();
             log += "[" + DateTime.Now + "]- Import - Time Lapsed: " + conteo.Elapsed + "ms\n";
-            StreamWriter file = new StreamWriter("Times.log", true);
+            StreamWriter file = new StreamWriter(session, true);
             file.Write(log);
             file.Close();
             //Necessary return time data to index
