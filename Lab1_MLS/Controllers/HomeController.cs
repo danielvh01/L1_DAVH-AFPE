@@ -41,5 +41,12 @@ namespace Lab1_MLS.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public ActionResult DownloadFile()
+        {
+            byte[] fileBytes = System.IO.File.ReadAllBytes("Times.log");
+            string fileName = "Times.log";
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+        }
     }
 }
