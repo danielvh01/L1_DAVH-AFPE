@@ -21,21 +21,37 @@ namespace Lab1_MLS.Controllers
         string log;
         private readonly IHostingEnvironment hostingEnvironment;
         string session;
+        ListOperations operations;
         public PlayerController(IHostingEnvironment hostingEnvironment)
         {
             session = "Times.log";
+            operations = new ListOperations();
             this.hostingEnvironment = hostingEnvironment;
         }
         // GET: PlayerController
-        public ActionResult Index()
+        public ActionResult Index(string filter)
         {
-            if (Singleton.Instance.usingHandmadeList)
+            if (filter == "")
             {
-                return View(Singleton.Instance.HandcraftedList);
+                if (Singleton.Instance.usingHandmadeList)
+                {
+                    return View(Singleton.Instance.HandcraftedList);
+                }
+                else
+                {
+                    return View(Singleton.Instance.PlayersList);
+                }
             }
             else
             {
-                return View(Singleton.Instance.PlayersList);
+                if (Singleton.Instance.usingHandmadeList)
+                {
+                    return View(operations.Search(Singleton.Instance.HandcraftedList, x=> x.ToString().Contains(filter)));
+                }
+                else
+                {
+                    return View(Singleton.Instance.PlayersList);
+                }
             }
         }
 

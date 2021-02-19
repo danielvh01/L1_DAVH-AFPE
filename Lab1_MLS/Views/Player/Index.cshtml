@@ -10,14 +10,12 @@
     <a asp-action="Create">Create</a> |
     <a asp-action="Import">Import</a> |
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div class="col-auto">
-                <label for="inputPassword2" class="visually-hidden">Password</label>
-                <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+        <form asp-action="Index">
+            <div class="input-group mb-3">
+                <label for="inputPassword2" class="visually-hidden">Search</label>
+                <input type="search" class="form-control" id="search" placeholder="Search">
             </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
-            </div>
+            <button type="submit" class="btn btn-primary mb-3">Search</button>
         </form>
     </div>
 </p>
