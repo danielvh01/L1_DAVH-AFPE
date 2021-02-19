@@ -7,7 +7,7 @@ namespace Lab1_MLS.Models.Data
 {
     public class ListOperations
     {
-        public IEnumerable<object> Search(IEnumerable<object> list, Predicate<object> Comparer)
+        public IEnumerable<object> Search(IEnumerable<object> list, Func<object, bool> Comparer)
         {
             List<object> result = new List<object>();
             for(int i  = 0; i < list.Count(); i++)
