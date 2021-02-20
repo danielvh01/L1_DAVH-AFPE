@@ -71,7 +71,7 @@ namespace Lab1_MLS.Controllers
                 file.Write(log);
                 file.Close();
                 return View(operations.Search(Singleton.Instance.HandcraftedList, x => x.Name.ToUpper().Contains(filter.ToUpper()) || x.LastName.ToUpper().Contains(filter.ToUpper())
-                || x.Position.ToUpper().Contains(filter.ToUpper()) || x.Club.ToUpper().Contains(filter.ToUpper())));
+                || x.Position.ToUpper().Contains(filter.ToUpper()) || x.Club.ToUpper().Contains(filter.ToUpper())||x.Salary.ToString().Contains(filter)));
             }
             else
             {
@@ -82,7 +82,7 @@ namespace Lab1_MLS.Controllers
                 file.Write(log);
                 file.Close();
                 return View(operations.Search(Singleton.Instance.PlayersList, x => x.Name.ToUpper().Contains(filter.ToUpper()) || x.LastName.ToUpper().Contains(filter.ToUpper())
-                || x.Position.ToUpper().Contains(filter.ToUpper()) || x.Club.ToUpper().Contains(filter.ToUpper())));
+                || x.Position.ToUpper().Contains(filter.ToUpper()) || x.Club.ToUpper().Contains(filter.ToUpper())|| x.Salary.ToString().Contains(filter)));
             }
         }
         
